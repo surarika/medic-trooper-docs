@@ -7,23 +7,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --black: #08080b;
-    --dark: #0e0e14;
-    --surface: #14141c;
-    --panel: #1a1a24;
-    --border: #28283a;
-    --border2: #3a3a50;
-    --gold: #c8a84b;
-    --gold2: #e8c96b;
-    --gold-dim: rgba(200,168,75,0.15);
-    --red: #b03025;
-    --red-dim: rgba(176,48,37,0.15);
-    --blue: #2a6496;
-    --blue-dim: rgba(42,100,150,0.15);
-    --green: #2a7a4a;
-    --text: #cccbc4;
-    --muted: #5a5a70;
-    --heading: #eeeee8;
+    --black: #080a0a;
+    --dark: #0d0f0f;
+    --surface: #131717;
+    --panel: #181e1e;
+    --border: #252e2e;
+    --border2: #334040;
+    --primary: #9e2a2a;
+    --primary-bright: #c44040;
+    --primary-dim: rgba(158,42,42,0.15);
+    --green: #2a6e45;
+    --green-bright: #3a9e60;
+    --green-dim: rgba(42,110,69,0.15);
+    --blue: #2a4e7a;
+    --blue-bright: #4a80b8;
+    --blue-dim: rgba(42,78,122,0.15);
+    --violet: #4a3a6a;
+    --violet-bright: #7a60b0;
+    --violet-dim: rgba(74,58,106,0.15);
+    --amber: #a07830;
+    --amber-bright: #c8a040;
+    --amber-dim: rgba(160,120,48,0.15);
+    --white: #e8e8e0;
+    --text: #c4c8c4;
+    --muted: #506060;
+    --heading: #e8ece8;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -47,7 +55,7 @@
   /* TOPBAR */
   .topbar {
     background: var(--black);
-    border-bottom: 1px solid var(--gold);
+    border-bottom: 1px solid var(--primary);
     padding: 0 32px;
     height: 44px;
     display: flex;
@@ -65,7 +73,7 @@
     font-weight: 700;
     font-size: 13px;
     letter-spacing: 3px;
-    color: var(--gold);
+    color: var(--primary-bright);
     text-transform: uppercase;
   }
   .topbar-right {
@@ -106,7 +114,7 @@
     position: absolute;
     right: -60px; top: -60px;
     width: 300px; height: 300px;
-    border: 1px solid rgba(200,168,75,0.06);
+    border: 1px solid rgba(158,42,42,0.08);
     border-radius: 50%;
   }
   .hero::before {
@@ -114,12 +122,12 @@
     position: absolute;
     right: 20px; top: 20px;
     width: 180px; height: 180px;
-    border: 1px solid rgba(200,168,75,0.04);
+    border: 1px solid rgba(58,158,96,0.05);
     border-radius: 50%;
   }
   .hero-emblem {
     width: 72px; height: 72px;
-    border: 1.5px solid var(--gold);
+    border: 1.5px solid var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -130,13 +138,13 @@
     content: '';
     position: absolute;
     inset: 4px;
-    border: 0.5px solid rgba(200,168,75,0.3);
+    border: 0.5px solid rgba(158,42,42,0.3);
   }
   .hero-info { flex: 1; }
   .hero-eyebrow {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
-    color: var(--gold);
+    color: var(--green-bright);
     letter-spacing: 4px;
     text-transform: uppercase;
     margin-bottom: 6px;
@@ -170,9 +178,9 @@
     border: 0.5px solid;
     text-transform: uppercase;
   }
-  .badge-gold { color: var(--gold); border-color: var(--gold); background: var(--gold-dim); }
-  .badge-red { color: #e05a4a; border-color: var(--red); background: var(--red-dim); }
-  .badge-blue { color: #5a9fd4; border-color: var(--blue); background: var(--blue-dim); }
+  .badge-gold { color: var(--amber-bright); border-color: var(--amber); background: var(--amber-dim); }
+  .badge-red { color: var(--primary-bright); border-color: var(--primary); background: var(--primary-dim); }
+  .badge-blue { color: var(--blue-bright); border-color: var(--blue); background: var(--blue-dim); }
 
   /* MAIN LAYOUT */
   .layout {
@@ -221,14 +229,14 @@
     text-decoration: none;
     user-select: none;
   }
-  .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
-  .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
+  .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.02); }
+  .nav-item.active { color: var(--green-bright); border-left-color: var(--green-bright); background: var(--green-dim); }
   .nav-dot {
     width: 5px; height: 5px;
     border: 1px solid currentColor;
     flex-shrink: 0;
   }
-  .nav-item.active .nav-dot { background: var(--gold); }
+  .nav-item.active .nav-dot { background: var(--green-bright); }
 
   /* MAIN CONTENT */
   .main {
@@ -249,7 +257,7 @@
     padding-bottom: 16px;
     border-bottom: 1px solid var(--border);
   }
-  .section-bar { width: 4px; height: 28px; background: var(--gold); flex-shrink: 0; }
+  .section-bar { width: 4px; height: 28px; background: var(--primary); flex-shrink: 0; }
   .section-title {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
@@ -279,9 +287,9 @@
     transition: border-left-color 0.2s, background 0.2s;
     cursor: default;
   }
-  .grade-card:hover { background: var(--panel); border-left-color: var(--gold); }
-  .grade-card.top { border-left-color: var(--red); }
-  .grade-card.top:hover { border-left-color: #e05a4a; }
+  .grade-card:hover { background: var(--panel); border-left-color: var(--green-bright); }
+  .grade-card.top { border-left-color: var(--primary); }
+  .grade-card.top:hover { border-left-color: var(--primary-bright); }
   .grade-rank {
     font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
@@ -326,20 +334,20 @@
     top: 0; left: 0; right: 0;
     height: 2px;
   }
-  .spec-card.mpc::before { background: #5a9fd4; }
-  .spec-card.mcr::before { background: #e05a4a; }
-  .spec-card.nrbc::before { background: #4caf50; }
-  .spec-card.log::before { background: var(--gold); }
+  .spec-card.mpc::before { background: var(--blue-bright); }
+  .spec-card.mcr::before { background: var(--primary-bright); }
+  .spec-card.nrbc::before { background: var(--green-bright); }
+  .spec-card.log::before { background: var(--amber-bright); }
   .spec-abbrev {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
     letter-spacing: 3px;
     margin-bottom: 8px;
   }
-  .spec-card.mpc .spec-abbrev { color: #5a9fd4; }
-  .spec-card.mcr .spec-abbrev { color: #e05a4a; }
-  .spec-card.nrbc .spec-abbrev { color: #4caf50; }
-  .spec-card.log .spec-abbrev { color: var(--gold); }
+  .spec-card.mpc .spec-abbrev { color: var(--blue-bright); }
+  .spec-card.mcr .spec-abbrev { color: var(--primary-bright); }
+  .spec-card.nrbc .spec-abbrev { color: var(--green-bright); }
+  .spec-card.log .spec-abbrev { color: var(--amber-bright); }
   .spec-name {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 600;
@@ -377,7 +385,7 @@
   .proto-num {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
-    color: var(--gold);
+    color: var(--green-bright);
     letter-spacing: 2px;
     flex-shrink: 0;
   }
@@ -402,7 +410,7 @@
     color: var(--text);
     padding: 8px 12px 8px 32px;
     background: var(--panel);
-    border-left: 2px solid var(--border2);
+    border-left: 2px solid var(--green);
     position: relative;
     line-height: 1.5;
   }
@@ -412,7 +420,7 @@
     left: 10px;
     font-family: 'Share Tech Mono', monospace;
     font-size: 9px;
-    color: var(--gold);
+    color: var(--green-bright);
     top: 50%;
     transform: translateY(-50%);
   }
@@ -462,16 +470,16 @@
     display: inline-block;
     letter-spacing: 1px;
   }
-  .req-all { color: #4caf50; border-color: #4caf50; background: rgba(76,175,80,0.1); }
-  .req-field { color: #5a9fd4; border-color: #5a9fd4; background: var(--blue-dim); }
-  .req-senior { color: var(--gold); border-color: var(--gold); background: var(--gold-dim); }
-  .req-spec { color: #e05a4a; border-color: var(--red); background: var(--red-dim); }
+  .req-all { color: var(--green-bright); border-color: var(--green); background: var(--green-dim); }
+  .req-field { color: var(--blue-bright); border-color: var(--blue); background: var(--blue-dim); }
+  .req-senior { color: var(--primary-bright); border-color: var(--primary); background: var(--primary-dim); }
+  .req-spec { color: var(--violet-bright); border-color: var(--violet); background: var(--violet-dim); }
 
   /* REGLEMENT */
   .rules-intro {
     background: var(--panel);
     border: 0.5px solid var(--border);
-    border-left: 3px solid var(--gold);
+    border-left: 3px solid var(--primary);
     padding: 14px 18px;
     margin-bottom: 20px;
     font-size: 13px;
@@ -491,7 +499,7 @@
   .rule-num {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
-    color: var(--gold);
+    color: var(--green-bright);
     letter-spacing: 1px;
     flex-shrink: 0;
     padding-top: 3px;
@@ -517,9 +525,9 @@
     align-self: flex-start;
     margin-top: 2px;
   }
-  .sev-mandatory { color: var(--gold); border-color: var(--gold); }
-  .sev-strict { color: #e05a4a; border-color: var(--red); }
-  .sev-info { color: #5a9fd4; border-color: var(--blue); }
+  .sev-mandatory { color: var(--green-bright); border-color: var(--green); }
+  .sev-strict { color: var(--primary-bright); border-color: var(--primary); }
+  .sev-info { color: var(--blue-bright); border-color: var(--blue); }
 
   /* FOOTER */
   footer {
@@ -565,13 +573,13 @@
 <div class="topbar">
   <div class="topbar-left">
     <svg class="emblem" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="11" stroke="#c8a84b" stroke-width="1"/>
-      <circle cx="12" cy="12" r="6.5" stroke="#c8a84b" stroke-width="0.8"/>
-      <circle cx="12" cy="12" r="2.5" fill="#c8a84b"/>
-      <line x1="12" y1="1" x2="12" y2="5.5" stroke="#c8a84b" stroke-width="1"/>
-      <line x1="12" y1="18.5" x2="12" y2="23" stroke="#c8a84b" stroke-width="1"/>
-      <line x1="1" y1="12" x2="5.5" y2="12" stroke="#c8a84b" stroke-width="1"/>
-      <line x1="18.5" y1="12" x2="23" y2="12" stroke="#c8a84b" stroke-width="1"/>
+      <circle cx="12" cy="12" r="11" stroke="#c44040" stroke-width="1"/>
+      <circle cx="12" cy="12" r="6.5" stroke="#c44040" stroke-width="0.8"/>
+      <circle cx="12" cy="12" r="2.5" fill="#c44040"/>
+      <line x1="12" y1="1" x2="12" y2="5.5" stroke="#c44040" stroke-width="1"/>
+      <line x1="12" y1="18.5" x2="12" y2="23" stroke="#c44040" stroke-width="1"/>
+      <line x1="1" y1="12" x2="5.5" y2="12" stroke="#c44040" stroke-width="1"/>
+      <line x1="18.5" y1="12" x2="23" y2="12" stroke="#c44040" stroke-width="1"/>
     </svg>
     Corps Médical Impérial
   </div>
@@ -585,8 +593,8 @@
 <div class="hero">
   <div class="hero-emblem">
     <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-      <path d="M22 5L39 14V30L22 39L5 30V14Z" stroke="#c8a84b" stroke-width="1.2" fill="none"/>
-      <path d="M19 14L19 30M25 14L25 30M14 19L30 19M14 25L30 25" stroke="#c8a84b" stroke-width="1.2"/>
+      <path d="M22 5L39 14V30L22 39L5 30V14Z" stroke="#9e2a2a" stroke-width="1.2" fill="none"/>
+      <path d="M19 14L19 30M25 14L25 30M14 19L30 19M14 25L30 25" stroke="#3a9e60" stroke-width="1.2"/>
     </svg>
   </div>
   <div class="hero-info">
@@ -650,7 +658,7 @@
             <div class="grade-name">Directeur du Corps Médical Impérial</div>
             <div class="grade-desc">Autorité suprême du Corps — décision finale sur toutes les opérations médicales</div>
           </div>
-          <span class="grade-tag" style="color:#e05a4a;border-color:var(--red);">DIRECTION</span>
+          <span class="grade-tag" style="color:var(--primary-bright);border-color:var(--primary);">DIRECTION</span>
         </div>
         <div class="grade-card">
           <div class="grade-rank">R-02</div>
@@ -659,7 +667,7 @@
             <div class="grade-name">Medic Trooper en Chef</div>
             <div class="grade-desc">Commandement opérationnel — supervision des interventions de terrain</div>
           </div>
-          <span class="grade-tag" style="color:var(--gold);border-color:var(--gold);">COMMANDEMENT</span>
+          <span class="grade-tag" style="color:var(--primary-bright);border-color:var(--primary);">COMMANDEMENT</span>
         </div>
         <div class="grade-card">
           <div class="grade-rank">R-03</div>
@@ -668,7 +676,7 @@
             <div class="grade-name">Cadre de Santé Impérial</div>
             <div class="grade-desc">Encadrement médical — coordination des équipes et protocoles avancés</div>
           </div>
-          <span class="grade-tag" style="color:var(--gold);border-color:var(--gold);">CADRE</span>
+          <span class="grade-tag" style="color:var(--green-bright);border-color:var(--green);">CADRE</span>
         </div>
         <div class="grade-card">
           <div class="grade-rank">R-04</div>
@@ -677,7 +685,7 @@
             <div class="grade-name">Medic Trooper de 1ère Classe</div>
             <div class="grade-desc">Médecin confirmé — accès à toutes les spécialités et équipements avancés</div>
           </div>
-          <span class="grade-tag" style="color:#5a9fd4;border-color:var(--blue);">TROOPER</span>
+          <span class="grade-tag" style="color:var(--green-bright);border-color:var(--green);">TROOPER</span>
         </div>
         <div class="grade-card">
           <div class="grade-rank">R-05</div>
@@ -686,7 +694,7 @@
             <div class="grade-name">Medic Trooper de 2ème Classe</div>
             <div class="grade-desc">Médecin de terrain — interventions standard sous supervision R-03+</div>
           </div>
-          <span class="grade-tag" style="color:#5a9fd4;border-color:var(--blue);">TROOPER</span>
+          <span class="grade-tag" style="color:var(--blue-bright);border-color:var(--blue);">TROOPER</span>
         </div>
         <div class="grade-card">
           <div class="grade-rank">R-06</div>
