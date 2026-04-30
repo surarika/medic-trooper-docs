@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Corps Médical Impérial — Documentation Officielle</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #08080b;
+    --dark: #0e0e14;
+    --surface: #14141c;
+    --panel: #1a1a24;
+    --border: #28283a;
+    --border2: #3a3a50;
+    --gold: #c8a84b;
+    --gold2: #e8c96b;
+    --gold-dim: rgba(200,168,75,0.15);
+    --red: #b03025;
+    --red-dim: rgba(176,48,37,0.15);
+    --blue: #2a6496;
+    --blue-dim: rgba(42,100,150,0.15);
+    --green: #2a7a4a;
+    --text: #cccbc4;
+    --muted: #5a5a70;
+    --heading: #eeeee8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--dark);
+    font-family: 'Barlow', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* SCAN LINE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--black);
+    border-bottom: 1px solid var(--gold);
+    padding: 0 32px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .topbar-right {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .status-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #4caf50;
+    margin-right: 5px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* EMBLEM SVG */
+  .emblem { width: 24px; height: 24px; }
+
+  /* HERO HEADER */
+  .hero {
+    background: var(--black);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 40px 28px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    border: 1px solid rgba(200,168,75,0.06);
+    border-radius: 50%;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: 20px; top: 20px;
+    width: 180px; height: 180px;
+    border: 1px solid rgba(200,168,75,0.04);
+    border-radius: 50%;
+  }
+  .hero-emblem {
+    width: 72px; height: 72px;
+    border: 1.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .hero-emblem::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 0.5px solid rgba(200,168,75,0.3);
+  }
+  .hero-info { flex: 1; }
+  .hero-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .hero-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 3px;
+    color: var(--heading);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  .hero-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .hero-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    border: 0.5px solid;
+    text-transform: uppercase;
+  }
+  .badge-gold { color: var(--gold); border-color: var(--gold); background: var(--gold-dim); }
+  .badge-red { color: #e05a4a; border-color: var(--red); background: var(--red-dim); }
+  .badge-blue { color: #5a9fd4; border-color: var(--blue); background: var(--blue-dim); }
+
+  /* MAIN LAYOUT */
+  .layout {
+    display: flex;
+    min-height: calc(100vh - 44px - 108px);
+  }
+
+  /* SIDEBAR NAV */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--black);
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 44px;
+    height: calc(100vh - 44px);
+    overflow-y: auto;
+  }
+  .sidebar-section {
+    margin-bottom: 24px;
+  }
+  .sidebar-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 0 20px;
+    margin-bottom: 6px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    text-decoration: none;
+    user-select: none;
+  }
+  .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
+  .nav-dot {
+    width: 5px; height: 5px;
+    border: 1px solid currentColor;
+    flex-shrink: 0;
+  }
+  .nav-item.active .nav-dot { background: var(--gold); }
+
+  /* MAIN CONTENT */
+  .main {
+    flex: 1;
+    padding: 32px 40px;
+    min-width: 0;
+  }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-bar { width: 4px; height: 28px; background: var(--gold); flex-shrink: 0; }
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--heading);
+    text-transform: uppercase;
+  }
+  .section-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+
+  /* GRADES */
+  .grades-list { display: grid; gap: 8px; }
+  .grade-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--border2);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: border-left-color 0.2s, background 0.2s;
+    cursor: default;
+  }
+  .grade-card:hover { background: var(--panel); border-left-color: var(--gold); }
+  .grade-card.top { border-left-color: var(--red); }
+  .grade-card.top:hover { border-left-color: #e05a4a; }
+  .grade-rank {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    min-width: 34px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .grade-divider { width: 1px; height: 32px; background: var(--border); flex-shrink: 0; }
+  .grade-info { flex: 1; }
+  .grade-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--heading);
+    letter-spacing: 1px;
+  }
+  .grade-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .grade-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    padding: 3px 9px;
+    border: 0.5px solid;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  /* SPECIALITES */
+  .spec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 32px; }
+  .spec-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .spec-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .spec-card.mpc::before { background: #5a9fd4; }
+  .spec-card.mcr::before { background: #e05a4a; }
+  .spec-card.nrbc::before { background: #4caf50; }
+  .spec-card.log::before { background: var(--gold); }
+  .spec-abbrev {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+  .spec-card.mpc .spec-abbrev { color: #5a9fd4; }
+  .spec-card.mcr .spec-abbrev { color: #e05a4a; }
+  .spec-card.nrbc .spec-abbrev { color: #4caf50; }
+  .spec-card.log .spec-abbrev { color: var(--gold); }
+  .spec-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--heading);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .spec-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .spec-req {
+    margin-top: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* PROTOCOLES */
+  .proto-grid { display: grid; gap: 12px; }
+  .proto-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    overflow: hidden;
+  }
+  .proto-header {
+    background: var(--panel);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 0.5px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .proto-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    flex-shrink: 0;
+  }
+  .proto-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--heading);
+    letter-spacing: 1px;
+    flex: 1;
+  }
+  .proto-toggle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  .proto-body { padding: 16px 18px; }
+  .proto-steps { list-style: none; display: grid; gap: 6px; }
+  .proto-steps li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 8px 12px 8px 32px;
+    background: var(--panel);
+    border-left: 2px solid var(--border2);
+    position: relative;
+    line-height: 1.5;
+  }
+  .proto-steps li::before {
+    content: attr(data-step);
+    position: absolute;
+    left: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--gold);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .proto-warning {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: var(--red-dim);
+    border-left: 2px solid var(--red);
+    font-size: 12px;
+    color: #e08070;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  /* EQUIPEMENTS */
+  .equip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .equip-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 16px;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .equip-card:hover { border-color: var(--border2); }
+  .equip-cat {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .equip-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--heading);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .equip-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+  .equip-req {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    padding: 2px 8px;
+    border: 0.5px solid;
+    display: inline-block;
+    letter-spacing: 1px;
+  }
+  .req-all { color: #4caf50; border-color: #4caf50; background: rgba(76,175,80,0.1); }
+  .req-field { color: #5a9fd4; border-color: #5a9fd4; background: var(--blue-dim); }
+  .req-senior { color: var(--gold); border-color: var(--gold); background: var(--gold-dim); }
+  .req-spec { color: #e05a4a; border-color: var(--red); background: var(--red-dim); }
+
+  /* REGLEMENT */
+  .rules-intro {
+    background: var(--panel);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .rules-list { display: grid; gap: 8px; }
+  .rule-item {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 14px 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .rule-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    padding-top: 3px;
+    min-width: 48px;
+  }
+  .rule-content { flex: 1; }
+  .rule-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--heading);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .rule-body { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .rule-severity {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    padding: 2px 7px;
+    border: 0.5px solid;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+  .sev-mandatory { color: var(--gold); border-color: var(--gold); }
+  .sev-strict { color: #e05a4a; border-color: var(--red); }
+  .sev-info { color: #5a9fd4; border-color: var(--blue); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-left {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+  }
+  .footer-right {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+  .sub-heading {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <svg class="emblem" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="11" stroke="#c8a84b" stroke-width="1"/>
+      <circle cx="12" cy="12" r="6.5" stroke="#c8a84b" stroke-width="0.8"/>
+      <circle cx="12" cy="12" r="2.5" fill="#c8a84b"/>
+      <line x1="12" y1="1" x2="12" y2="5.5" stroke="#c8a84b" stroke-width="1"/>
+      <line x1="12" y1="18.5" x2="12" y2="23" stroke="#c8a84b" stroke-width="1"/>
+      <line x1="1" y1="12" x2="5.5" y2="12" stroke="#c8a84b" stroke-width="1"/>
+      <line x1="18.5" y1="12" x2="23" y2="12" stroke="#c8a84b" stroke-width="1"/>
+    </svg>
+    Corps Médical Impérial
+  </div>
+  <div class="topbar-right">
+    <span><span class="status-dot"></span>SYSTÈME OPÉRATIONNEL</span>
+    <span>DOC v1.0</span>
+    <span id="clock"></span>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-emblem">
+    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+      <path d="M22 5L39 14V30L22 39L5 30V14Z" stroke="#c8a84b" stroke-width="1.2" fill="none"/>
+      <path d="M19 14L19 30M25 14L25 30M14 19L30 19M14 25L30 25" stroke="#c8a84b" stroke-width="1.2"/>
+    </svg>
+  </div>
+  <div class="hero-info">
+    <div class="hero-eyebrow">Galactic Empire — Armée Impériale</div>
+    <div class="hero-title">Corps Médical Impérial</div>
+    <div class="hero-sub">Documentation officielle — Serveur RP GMOD</div>
+    <div class="hero-badges">
+      <span class="hero-badge badge-gold">CLEARANCE LVL 2</span>
+      <span class="hero-badge badge-red">CONFIDENTIEL</span>
+      <span class="hero-badge badge-blue">4 SPÉCIALITÉS ACTIVES</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Navigation</div>
+      <a class="nav-item active" onclick="show('grades')">
+        <span class="nav-dot"></span>Grades & Hiérarchie
+      </a>
+      <a class="nav-item" onclick="show('protocoles')">
+        <span class="nav-dot"></span>Protocoles RP
+      </a>
+      <a class="nav-item" onclick="show('equipements')">
+        <span class="nav-dot"></span>Équipements
+      </a>
+      <a class="nav-item" onclick="show('reglement')">
+        <span class="nav-dot"></span>Règlement Interne
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Unité</div>
+      <div style="padding: 0 20px;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);line-height:1.8;letter-spacing:0.5px;">
+          EFFECTIF : ACTIF<br>
+          SPÉC. : 04 ACTIVES<br>
+          VERSION : 1.0<br>
+          STATUT : OPÉRATIONNEL
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- SECTION GRADES -->
+    <div class="section active" id="grades">
+      <div class="section-header">
+        <div class="section-bar"></div>
+        <div class="section-title">Grades & Hiérarchie</div>
+        <div class="section-count">6 GRADES — 4 SPÉCIALITÉS</div>
+      </div>
+
+      <div class="sub-heading">Hiérarchie officielle</div>
+      <div class="grades-list">
+        <div class="grade-card top">
+          <div class="grade-rank">R-01</div>
+          <div class="grade-divider"></div>
+          <div class="grade-info">
+            <div class="grade-name">Directeur du Corps Médical Impérial</div>
+            <div class="grade-desc">Autorité suprême du Corps — décision finale sur toutes les opérations médicales</div>
+          </div>
+          <span class="grade-tag" style="color:#e05a4a;border-color:var(--red);">DIRECTION</span>
+        </div>
+        <div class="grade-card">
+          <div class="grade-rank">R-02</div>
+          <div class="grade-divider"></div>
+          <div class="grade-info">
+            <div class="grade-name">Medic Trooper en Chef</div>
+            <div class="grade-desc">Commandement opérationnel — supervision des interventions de terrain</div>
+          </div>
+          <span class="grade-tag" style="color:var(--gold);border-color:var(--gold);">COMMANDEMENT</span>
+        </div>
+        <div class="grade-card">
+          <div class="grade-rank">R-03</div>
+          <div class="grade-divider"></div>
+          <div class="grade-info">
+            <div class="grade-name">Cadre de Santé Impérial</div>
+            <div class="grade-desc">Encadrement médical — coordination des équipes et protocoles avancés</div>
+          </div>
+          <span class="grade-tag" style="color:var(--gold);border-color:var(--gold);">CADRE</span>
+        </div>
+        <div class="grade-card">
+          <div class="grade-rank">R-04</div>
+          <div class="grade-divider"></div>
+          <div class="grade-info">
+            <div class="grade-name">Medic Trooper de 1ère Classe</div>
+            <div class="grade-desc">Médecin confirmé — accès à toutes les spécialités et équipements avancés</div>
+          </div>
+          <span class="grade-tag" style="color:#5a9fd4;border-color:var(--blue);">TROOPER</span>
+        </div>
+        <div class="grade-card">
+          <div class="grade-rank">R-05</div>
+          <div class="grade-divider"></div>
+          <div class="grade-info">
+            <div class="grade-name">Medic Trooper de 2ème Classe</div>
+            <div class="grade-desc">Médecin de terrain — interventions standard sous supervision R-03+</div>
+          </div>
+          <span class="grade-tag" style="color:#5a9fd4;border-color:var(--blue);">TROOPER</span>
+        </div>
+        <div class="grade-card">
+          <div class="grade-rank">R-06</div>
+          <div class="grade-divider"></div>
+          <div class="grade-info">
+            <div class="grade-name">Auxiliaire Médical</div>
+            <div class="grade-desc">En formation — supervision obligatoire par un grade R-04 minimum à tout moment</div>
+          </div>
+          <span class="grade-tag" style="color:var(--muted);border-color:var(--border2);">FORMATION</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sub-heading">Spécialités médicales</div>
+      <div class="spec-grid">
+        <div class="spec-card mpc">
+          <div class="spec-abbrev">MPC</div>
+          <div class="spec-name">Médecine Psychologique et Cognitive</div>
+          <div class="spec-desc">Prise en charge des traumatismes psychologiques, états de choc, instabilités cognitives et troubles comportementaux en contexte de combat.</div>
+          <div class="spec-req">ACCÈS : R-04 MINIMUM</div>
+        </div>
+        <div class="spec-card mcr">
+          <div class="spec-abbrev">MCR</div>
+          <div class="spec-name">Médecine Chirurgicale et Reconstructive</div>
+          <div class="spec-desc">Interventions chirurgicales d'urgence, reconstruction de membres, traitement des blessures balistiques et traumatismes lourds.</div>
+          <div class="spec-req">ACCÈS : R-04 MINIMUM</div>
+        </div>
+        <div class="spec-card nrbc">
+          <div class="spec-abbrev">NRBC</div>
+          <div class="spec-name">Gestion des Risques & Menaces NRBC</div>
+          <div class="spec-desc">Neutralisation et gestion des contaminations Nucléaires, Radiologiques, Biologiques et Chimiques. Protocoles de décontamination de zone.</div>
+          <div class="spec-req">ACCÈS : R-03 MINIMUM — ACCRÉDITATION REQUISE</div>
+        </div>
+        <div class="spec-card log">
+          <div class="spec-abbrev">LOG</div>
+          <div class="spec-name">Gestion du Support Médical & Logistique</div>
+          <div class="spec-desc">Planification logistique médicale, gestion des stocks de matériel, organisation des postes de secours avancés et ravitaillement en zone.</div>
+          <div class="spec-req">ACCÈS : R-03 MINIMUM</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION PROTOCOLES -->
+    <div class="section" id="protocoles">
+      <div class="section-header">
+        <div class="section-bar"></div>
+        <div class="section-title">Protocoles Médicaux RP</div>
+        <div class="section-count">3 PROTOCOLES ACTIFS</div>
+      </div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-header" onclick="toggleProto(this)">
+            <span class="proto-num">PROTO-01</span>
+            <span class="proto-title">Triage de Zone — Évaluation des blessés en combat</span>
+            <span class="proto-toggle">▼</span>
+          </div>
+          <div class="proto-body">
+            <ul class="proto-steps">
+              <li data-step="01">Sécuriser la zone avant toute intervention — ne jamais traiter sous feu actif sans couverture</li>
+              <li data-step="02">Annoncer en vocal : <em>"MEDIC EN ZONE, TRIAGE EN COURS"</em></li>
+              <li data-step="03">Classer les blessés : ROUGE (critique), ORANGE (urgent), VERT (léger)</li>
+              <li data-step="04">Stabiliser les critiques en priorité — communiquer les priorités aux autres Medics présents</li>
+              <li data-step="05">Transmettre le bilan au grade R-02+ en fin de triage</li>
+            </ul>
+            <div class="proto-warning">! ATTENTION — L'Auxiliaire Médical ne peut effectuer le triage qu'en présence d'un R-04 minimum</div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-header" onclick="toggleProto(this)">
+            <span class="proto-num">PROTO-02</span>
+            <span class="proto-title">Réanimation — Procédure de réanimation d'un Trooper</span>
+            <span class="proto-toggle">▼</span>
+          </div>
+          <div class="proto-body">
+            <ul class="proto-steps">
+              <li data-step="01">Vérifier l'absence de menace active dans un rayon immédiat</li>
+              <li data-step="02">Annoncer en chat RP : <em>"MEDIC SUR [PSEUDO DU BLESSÉ]"</em></li>
+              <li data-step="03">Scanner le blessé avec le Med Scanner — décrire les blessures en RP vocal</li>
+              <li data-step="04">Utiliser le Defibrillator ou le Bacta Injector selon la gravité</li>
+              <li data-step="05">Surveiller le blessé 30 secondes après réanimation avant de lever l'intervention</li>
+              <li data-step="06">Rédiger un rapport d'intervention et le transmettre au Cadre de Santé</li>
+            </ul>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-header" onclick="toggleProto(this)">
+            <span class="proto-num">PROTO-03</span>
+            <span class="proto-title">Évacuation — EVAC médicale sous feu</span>
+            <span class="proto-toggle">▼</span>
+          </div>
+          <div class="proto-body">
+            <ul class="proto-steps">
+              <li data-step="01">Demander une couverture au commandant de section avant tout déplacement</li>
+              <li data-step="02">Annoncer en vocal : <em>"EVAC MÉDICALE EN COURS — COUVERTURE REQUISE"</em></li>
+              <li data-step="03">Transporter le blessé vers la zone médicale désignée par le briefing</li>
+              <li data-step="04">Ne jamais abandonner un blessé sans transmission à un autre Medic</li>
+              <li data-step="05">Signaler l'arrivée au poste médical : <em>"BLESSÉ PRIS EN CHARGE — ÉVAC TERMINÉE"</em></li>
+            </ul>
+            <div class="proto-warning">! CRITIQUE — L'abandon de poste médical sans transmission est une faute grave passible de sanction</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION EQUIPEMENTS -->
+    <div class="section" id="equipements">
+      <div class="section-header">
+        <div class="section-bar"></div>
+        <div class="section-title">Équipements & Items</div>
+        <div class="section-count">6 ÉQUIPEMENTS RÉPERTORIÉS</div>
+      </div>
+      <div class="equip-grid">
+        <div class="equip-card">
+          <div class="equip-cat">Soin — Urgence</div>
+          <div class="equip-name">Stim-Pack Impérial</div>
+          <div class="equip-desc">Soin rapide des blessures légères à modérées. Usage standard autorisé en toutes circonstances.</div>
+          <span class="equip-req req-all">TOUS GRADES</span>
+        </div>
+        <div class="equip-card">
+          <div class="equip-cat">Réanimation</div>
+          <div class="equip-name">Défibrillateur de Campagne</div>
+          <div class="equip-desc">Réanimation des troopers inconscients uniquement. Usage interdit sur blessé en état stable.</div>
+          <span class="equip-req req-field">R-05 MINIMUM</span>
+        </div>
+        <div class="equip-card">
+          <div class="equip-cat">Stabilisation</div>
+          <div class="equip-name">Bandage Impérial</div>
+          <div class="equip-desc">Contrôle des hémorragies et stabilisation temporaire. Mesure d'urgence avant traitement définitif.</div>
+          <span class="equip-req req-all">TOUS GRADES</span>
+        </div>
+        <div class="equip-card">
+          <div class="equip-cat">Régénération avancée</div>
+          <div class="equip-name">Bacta Injector</div>
+          <div class="equip-desc">Régénération cellulaire accélérée. Réservé aux interventions complexes ou blessures multiples.</div>
+          <span class="equip-req req-field">R-04 MINIMUM</span>
+        </div>
+        <div class="equip-card">
+          <div class="equip-cat">Diagnostic</div>
+          <div class="equip-name">Med Scanner Impérial</div>
+          <div class="equip-desc">Diagnostic complet des blessures. Son utilisation et son annonce vocale sont obligatoires avant tout soin.</div>
+          <span class="equip-req req-all">TOUS GRADES</span>
+        </div>
+        <div class="equip-card">
+          <div class="equip-cat">Kit complet</div>
+          <div class="equip-name">Med Kit de Commandement</div>
+          <div class="equip-desc">Kit chirurgical complet pour opérations prolongées. Contient tous les équipements avancés.</div>
+          <span class="equip-req req-senior">R-03 MINIMUM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION REGLEMENT -->
+    <div class="section" id="reglement">
+      <div class="section-header">
+        <div class="section-bar"></div>
+        <div class="section-title">Règlement Interne</div>
+        <div class="section-count">5 ARTICLES EN VIGUEUR</div>
+      </div>
+      <div class="rules-intro">
+        Le présent règlement s'applique à l'ensemble des membres du Corps Médical Impérial, sans exception de grade. Tout manquement est susceptible de faire l'objet d'une procédure disciplinaire par le Directeur du Corps ou un Medic Trooper en Chef.
+      </div>
+      <div class="rules-list">
+        <div class="rule-item">
+          <div class="rule-num">ART. 01</div>
+          <div class="rule-content">
+            <div class="rule-title">Priorité au Roleplay Médical</div>
+            <div class="rule-body">Tout soin doit être joué de manière réaliste et cohérente avec l'univers Star Wars. L'utilisation d'items médicaux sans annonce vocale ou textuelle en RP est strictement interdite.</div>
+          </div>
+          <span class="rule-severity sev-strict">OBLIGATOIRE</span>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">ART. 02</div>
+          <div class="rule-content">
+            <div class="rule-title">Respect de la Chaîne de Commandement</div>
+            <div class="rule-body">Toute décision médicale engageant l'unité ou le serveur doit être validée par un grade R-03 minimum. En l'absence de supérieur, le grade le plus élevé présent prend le commandement.</div>
+          </div>
+          <span class="rule-severity sev-strict">STRICT</span>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">ART. 03</div>
+          <div class="rule-content">
+            <div class="rule-title">Neutralité & Protection du Personnel Médical</div>
+            <div class="rule-body">Un Medic Trooper en intervention active ne peut être attaqué par les forces impériales. Tout cas de "team-kill" médical doit être signalé immédiatement au staff du serveur avec capture d'écran.</div>
+          </div>
+          <span class="rule-severity sev-strict">STRICT</span>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">ART. 04</div>
+          <div class="rule-content">
+            <div class="rule-title">Tenue & Équipement Réglementaire</div>
+            <div class="rule-body">Le skin Medic Trooper officiel est obligatoire pendant toute session de service. Aucune modification cosmétique n'est autorisée sans accord explicite du Directeur du Corps Médical Impérial.</div>
+          </div>
+          <span class="rule-severity sev-mandatory">OBLIGATOIRE</span>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">ART. 05</div>
+          <div class="rule-content">
+            <div class="rule-title">Rapport d'Incident Obligatoire</div>
+            <div class="rule-body">Tout décès ou blessure grave d'un trooper pris en charge doit faire l'objet d'un rapport écrit transmis au Cadre de Santé dans les 24 heures suivant l'incident. Les Auxiliaires Médicaux sont exemptés, leur superviseur est responsable.</div>
+          </div>
+          <span class="rule-severity sev-info">PROCÉDURE</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-left">CORPS MÉDICAL IMPÉRIAL — DOCUMENTATION OFFICIELLE V1.0 — USAGE INTERNE UNIQUEMENT</div>
+  <div class="footer-right">GALACTIC EMPIRE — ARMÉE IMPÉRIALE</div>
+</footer>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const items = document.querySelectorAll('.nav-item');
+  const map = { grades: 0, protocoles: 1, equipements: 2, reglement: 3 };
+  items[map[id]].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function toggleProto(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.proto-toggle');
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    toggle.textContent = '▼';
+  } else {
+    body.style.display = 'none';
+    toggle.textContent = '▶';
+  }
+}
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
